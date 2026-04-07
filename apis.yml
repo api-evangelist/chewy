@@ -1,16 +1,14 @@
 aid: chewy
-url: 
-  https://raw.githubusercontent.com/api-evangelist/chewy/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/chewy/refs/heads/main/apis.yml
 apis:
   - aid: chewy:vendor-integration-api
     name: Chewy Vendor Integration API
     tags:
-      - Pet Retail
       - E-Commerce
       - EDI
+      - Pet Retail
       - Vendor Integration
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.dsco.io
     humanURL: https://www.chewy.com
     properties:
