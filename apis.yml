@@ -1,5 +1,6 @@
 aid: chewy
-url: https://raw.githubusercontent.com/api-evangelist/chewy/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/chewy/refs/heads/main/apis.yml
 apis:
   - aid: chewy:vendor-integration-api
     name: Chewy Vendor Integration API
@@ -8,7 +9,8 @@ apis:
       - E-Commerce
       - EDI
       - Vendor Integration
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.dsco.io
     humanURL: https://www.chewy.com
     properties:
@@ -22,3 +24,7 @@ apis:
       (846), shipment confirmations (856), and invoices (810). Vendors
       authenticate using API tokens and supplier account credentials
       provided through the DSCO platform.
+description: >-
+  Chewy is an American online retailer of pet food and pet-related products, offering
+  a wide selection of pet products, prescription medications, and veterinary services
+  with a customer-focused approach.
