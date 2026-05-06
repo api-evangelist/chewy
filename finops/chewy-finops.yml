@@ -1,143 +1,87 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Chewy
+providerId: chewy
+created: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
+tags:
+  - Dsco
+  - E-Commerce
+  - EDI
+  - Pet Retail
+  - Vendor Integration
+  - FinOps
+  - FOCUS
+description: 'FOCUS-aligned FinOps for Chewy vendor integration: Chewy itself does not bill suppliers
+  per API call. Cost shape is the Dsco / CommerceHub platform subscription plus normal trading-partner
+  economics (drop-ship fees, returns, chargebacks) — not metered API usage.'
+notes: Chewy does not publish a usage-based billing surface for its APIs. The FinOps shape below
+  reflects the Dsco supplier subscription cost.
+sources:
+  - https://www.chewy.com/
+  - https://www.dsco.io/
+  - https://www.commercehub.com/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
   dataSpec: FOCUS
   dataSpecVersion: '1.3'
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
-provider: Chewy
-providerId: chewy
-publisherName: Chewy
-serviceCategory: API
-created: '2026-05-04'
-modified: '2026-05-04'
-tags:
-  - Autoship
-  - Drop Shipping
-  - Dsco
-  - E-Commerce
-  - EDI
-  - Fortune 500
-  - Pet Food
-  - Pet Pharmacy
-  - Pet Retail
-  - Plantation
-  - Subscriptions
-  - Telehealth
-  - Vendor Integration
-  - Veterinary
-  - FinOps
-  - Cost Management
-  - FOCUS
-description: FinOps framework definition for the Chewy API surface. Provides a FOCUS-aligned mapping for
-  cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+publisherName: Chewy, Inc.
+serviceCategory: E-Commerce / Vendor Integration
 billingModel:
-  pricingCategory: Usage-Based
+  pricingCategory: Subscription
   billingFrequency: Monthly
   billingCurrency: USD
   chargeCategories:
-    - Usage
     - Purchase
-    - Tax
-    - Credit
     - Adjustment
-  chargeFrequency: Recurring
 focusColumns:
-  ServiceName: Chewy
-  ServiceCategory: Developer Tools / API
+  ServiceName: Chewy Vendor Integration (Dsco)
+  ServiceCategory: E-Commerce / EDI
   ProviderName: Chewy
-  PublisherName: Chewy
-  InvoiceIssuerName: Chewy
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  PublisherName: Chewy, Inc.
+  InvoiceIssuerName: CommerceHub (Dsco platform)
   BillingCurrency: USD
-  ChargeCategory: Usage
+  ChargeCategory: Purchase
+  PricingCategory: Subscription
 meters:
-  - name: api_requests
-    description: Count of billable API requests
-    unit: request
+  - name: dsco_subscription
+    description: Monthly Dsco supplier-platform subscription line
+    unit: month
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
       - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
+      - supplier_id
+  - name: edi_transactions
+    description: Volume of EDI documents (850, 846, 856, 810) exchanged through the Dsco connector
+    unit: transaction
     aggregation: sum
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
+      - document_type
+      - retailer
+  - name: chargebacks
+    description: Trading-partner chargebacks issued by Chewy for compliance violations
+    unit: event
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Chewy Vendor Integration API
-    baseURL: https://api.dsco.io
-    tags:
-      - Dsco
-      - E-Commerce
-      - EDI
-      - Pet Retail
-      - Vendor Integration
-    serviceName: Chewy Vendor Integration API
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+      - reason
+      - po_number
+principles:
+  - name: Visibility
+    description: Track Dsco subscription invoices, EDI transaction counts in the Dsco portal, and
+      Chewy chargeback statements as the three cost surfaces for the integration.
+  - name: Allocation
+    description: Tag Dsco connector cost to the channel (Chewy) and to the brand / SKU family that
+      drives the volume so e-commerce ops can see channel margin.
+  - name: Optimization
+    description: Reduce chargebacks by tightening ASN accuracy and inventory feed cadence; size the
+      Dsco tier to actual document volume rather than negotiated peaks.
+  - name: Accountability
+    description: E-commerce / channel operations owns the Chewy P&L; supply chain owns ASN compliance;
+      finance reconciles Dsco invoices and Chewy chargeback settlements.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

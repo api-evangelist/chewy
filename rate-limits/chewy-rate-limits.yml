@@ -4,95 +4,44 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Chewy
 providerId: chewy
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
-  - Autoship
-  - Drop Shipping
   - Dsco
   - E-Commerce
   - EDI
-  - Fortune 500
-  - Pet Food
-  - Pet Pharmacy
-  - Pet Retail
-  - Plantation
-  - Subscriptions
-  - Telehealth
   - Vendor Integration
-  - Veterinary
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Chewy API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+description: Chewy's vendor integration runs on the Dsco platform (api.dsco.io). Dsco does not publish
+  consumer-facing per-second rate limits; throttling and backpressure policies are governed by Dsco /
+  CommerceHub for the supplier tenant and are typically communicated through onboarding documentation
+  rather than a public limits page.
+notes: No public rate-limit numbers are published for api.dsco.io. Approved suppliers should consult
+  the Dsco developer documentation provided through the supplier portal.
+sources:
+  - https://www.dsco.io/
+  - https://api.dsco.io/
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
+  serverError: 500
   serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Chewy Vendor Integration API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Chewy Vendor Integration API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Chewy Vendor Integration API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Chewy Vendor Integration API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Chewy Vendor Integration API
+  - name: Dsco API requests
+    scope: supplier-account
+    metric: varies
+    limit: 'see Dsco supplier portal documentation'
+    notes: Dsco applies per-tenant throttling but does not publish numeric limits. Consult the supplier
+      onboarding portal for current ceilings.
 policies:
   - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
+    description: On 429 / 5xx responses, retry with exponential backoff and jitter. Honor Retry-After
       when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Bulk Operations
+    description: For large catalog or inventory updates, prefer Dsco's bulk endpoints / batched feeds
+      over per-record API calls to avoid throttling.
+  - name: Pagination
+    description: Iterate large result sets with the documented cursor / page parameters rather than
+      large offset queries.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
