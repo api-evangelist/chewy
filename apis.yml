@@ -67,6 +67,8 @@ apis:
       - type: DscoPlatform
         url: https://www.dsco.io
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/chewy-com
   - type: Website
     url: https://www.chewy.com
   - type: GitHub
