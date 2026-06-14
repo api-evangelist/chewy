@@ -1,0 +1,867 @@
+# Chewy GraphQL Schema (Conceptual)
+# Models the Chewy pet supplies e-commerce platform domain.
+# Source: Derived from public Chewy website, Autoship, Pharmacy, and Dsco integration documentation.
+
+# ─── Enumerations ────────────────────────────────────────────────────────────
+
+enum SpeciesType {
+  DOG
+  CAT
+  BIRD
+  FISH
+  REPTILE
+  SMALL_ANIMAL
+  HORSE
+  OTHER
+}
+
+enum FoodCategory {
+  DRY
+  WET
+  RAW
+  FREEZE_DRIED
+  PRESCRIPTION_DIET
+  SPECIALTY_DIET
+  TREAT
+  SUPPLEMENT
+}
+
+enum AutoshipFrequencyUnit {
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+  BIMONTHLY
+  EVERY_THREE_MONTHS
+  EVERY_SIX_MONTHS
+}
+
+enum OrderStatusValue {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  RETURNED
+  REFUNDED
+}
+
+enum PaymentType {
+  CREDIT_CARD
+  DEBIT_CARD
+  PAYPAL
+  AFFIRM
+  GIFT_CARD
+}
+
+enum WebhookEvent {
+  ORDER_CREATED
+  ORDER_SHIPPED
+  ORDER_DELIVERED
+  ORDER_CANCELLED
+  AUTOSHIP_PROCESSED
+  AUTOSHIP_UPDATED
+  PRESCRIPTION_APPROVED
+  INVENTORY_UPDATE
+  RETURN_INITIATED
+}
+
+# ─── Pet Domain ──────────────────────────────────────────────────────────────
+
+type Species {
+  id: ID!
+  name: String!
+  code: SpeciesType!
+  description: String
+  commonBreeds: [Breed!]
+}
+
+type Breed {
+  id: ID!
+  name: String!
+  species: Species!
+  averageLifespan: String
+  averageWeight: String
+  description: String
+}
+
+type Age {
+  years: Int
+  months: Int
+  lifestage: String
+}
+
+type Weight {
+  value: Float!
+  unit: String!
+  recordedAt: String
+}
+
+type PetDetails {
+  species: Species!
+  breed: Breed
+  age: Age
+  weight: Weight
+  color: String
+  microchipId: String
+  neutered: Boolean
+  adoptionDate: String
+}
+
+type Pet {
+  id: ID!
+  name: String!
+  details: PetDetails!
+  health: Health
+  medicalRecords: [MedicalRecord!]
+  prescriptions: [Prescription!]
+  autoships: [Autoship!]
+  owner: PetOwner
+  photo: String
+  notes: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+type PetProfile {
+  id: ID!
+  pet: Pet!
+  dietaryRestrictions: [String!]
+  allergies: [String!]
+  preferredBrands: [Brand!]
+  preferredFoodTypes: [FoodType!]
+  vetRecords: [VetRecord!]
+}
+
+# ─── Health and Veterinary Domain ────────────────────────────────────────────
+
+type Health {
+  id: ID!
+  pet: Pet!
+  conditions: [String!]
+  allergies: [String!]
+  currentMedications: [Medication!]
+  lastVetVisit: String
+  insurancePolicyNumber: String
+  notes: String
+}
+
+type MedicalRecord {
+  id: ID!
+  pet: Pet!
+  recordDate: String!
+  recordType: String!
+  diagnosis: String
+  treatment: String
+  veterinarian: Veterinarian
+  clinic: VetClinic
+  attachments: [String!]
+  notes: String
+}
+
+type Medication {
+  id: ID!
+  name: String!
+  genericName: String
+  manufacturer: String
+  dosage: String
+  frequency: String
+  dispensedQuantity: Int
+  refillsRemaining: Int
+  prescriptionRequired: Boolean!
+  species: [Species!]
+  sideEffects: [String!]
+  warnings: [String!]
+}
+
+type Prescription {
+  id: ID!
+  pet: Pet!
+  medication: Medication!
+  veterinarian: Veterinarian!
+  issuedDate: String!
+  expirationDate: String
+  refillsAuthorized: Int
+  refillsUsed: Int
+  status: String!
+  approvedByPharmacy: Boolean!
+  chewyPharmacyOrderId: String
+}
+
+type VetRecord {
+  id: ID!
+  pet: Pet!
+  veterinarian: Veterinarian!
+  clinic: VetClinic
+  visitDate: String!
+  visitType: String!
+  vaccinations: [String!]
+  weightAtVisit: Weight
+  notes: String
+}
+
+type Veterinarian {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  licenseNumber: String!
+  licenseState: String!
+  specialties: [String!]
+  clinic: VetClinic
+  phone: String
+  email: String
+  chewyPartner: Boolean!
+}
+
+type VetPartner {
+  id: ID!
+  veterinarian: Veterinarian!
+  partnerSince: String!
+  prescriptionIntegrationEnabled: Boolean!
+  telehealthEnabled: Boolean!
+}
+
+type VetClinic {
+  id: ID!
+  name: String!
+  address: Address!
+  phone: String!
+  email: String
+  website: String
+  hours: String
+  chewyPartner: Boolean!
+  veterinarians: [Veterinarian!]
+}
+
+# ─── Product Catalog Domain ───────────────────────────────────────────────────
+
+type Brand {
+  id: ID!
+  name: String!
+  description: String
+  logoUrl: String
+  website: String
+  chewyExclusive: Boolean!
+  products: [Product!]
+}
+
+type ProductCategory {
+  id: ID!
+  name: String!
+  slug: String!
+  parent: ProductCategory
+  children: [ProductCategory!]
+  description: String
+}
+
+type ProductImage {
+  id: ID!
+  url: String!
+  altText: String
+  isPrimary: Boolean!
+  sortOrder: Int
+}
+
+type Ingredient {
+  name: String!
+  percentage: Float
+  isAllergen: Boolean!
+  description: String
+}
+
+type Nutritional {
+  crudeProteinMin: Float
+  crudeFatMin: Float
+  crudeFiberMax: Float
+  moistureMax: Float
+  caloricContent: String
+  servingSize: String
+  servingsPerContainer: Float
+  additionalNutrients: [String!]
+}
+
+type FoodType {
+  id: ID!
+  category: FoodCategory!
+  name: String!
+  description: String
+}
+
+type PetFood {
+  id: ID!
+  product: Product!
+  foodType: FoodType!
+  ingredients: [Ingredient!]
+  nutritional: Nutritional
+  suitableSpecies: [Species!]
+  lifestage: [String!]
+  prescriptionRequired: Boolean!
+  flavors: [String!]
+}
+
+type DryFood {
+  id: ID!
+  petFood: PetFood!
+  kibbleSize: String
+  bagWeightOz: Float
+  isGrainFree: Boolean!
+  isOrganic: Boolean!
+}
+
+type WetFood {
+  id: ID!
+  petFood: PetFood!
+  canSizeOz: Float
+  pouchSizeOz: Float
+  texture: String
+  isGrainFree: Boolean!
+}
+
+type RawFood {
+  id: ID!
+  petFood: PetFood!
+  rawType: String
+  freezeDried: Boolean!
+  frozen: Boolean!
+  weightOz: Float
+}
+
+type PrescriptionDiet {
+  id: ID!
+  petFood: PetFood!
+  targetCondition: String!
+  vetApprovalRequired: Boolean!
+  clinicalStudies: [String!]
+}
+
+type SpecialtyDiet {
+  id: ID!
+  petFood: PetFood!
+  dietType: String!
+  certifications: [String!]
+}
+
+type Toy {
+  id: ID!
+  product: Product!
+  toyType: String!
+  material: String
+  suitableSpecies: [Species!]
+  suitableSizes: [String!]
+  interactive: Boolean!
+  safetyRating: String
+}
+
+type Treat {
+  id: ID!
+  product: Product!
+  treatType: String!
+  ingredients: [Ingredient!]
+  calories: Float
+  suitableSpecies: [Species!]
+  lifestage: [String!]
+  isOrganic: Boolean!
+  isGrainFree: Boolean!
+}
+
+type Supplies {
+  id: ID!
+  product: Product!
+  supplyType: String!
+  suitableSpecies: [Species!]
+  material: String
+  dimensions: String
+  weight: String
+}
+
+type MedicalSupply {
+  id: ID!
+  supplies: Supplies!
+  requiresPrescription: Boolean!
+  targetCondition: String
+  clinicalUse: String
+}
+
+type GroomingSupply {
+  id: ID!
+  supplies: Supplies!
+  groomingType: String!
+  suitableCoatTypes: [String!]
+  suitableBreeds: [String!]
+}
+
+type ProductSKU {
+  id: ID!
+  product: Product!
+  sku: String!
+  upc: String
+  variantLabel: String
+  size: String
+  quantity: Int
+  price: Price!
+  salePrice: SalePrice
+  autoshipPrice: Price
+  stockLevel: Int
+  inStock: Boolean!
+}
+
+type ProductDetails {
+  shortDescription: String!
+  longDescription: String
+  specifications: [String!]
+  warnings: [String!]
+  directions: String
+  countryOfOrigin: String
+  assemblyRequired: Boolean!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  slug: String!
+  brand: Brand!
+  category: ProductCategory!
+  details: ProductDetails!
+  images: [ProductImage!]
+  skus: [ProductSKU!]
+  suitableSpecies: [Species!]
+  tags: [String!]
+  averageRating: Float
+  reviewCount: Int
+  autoshipEligible: Boolean!
+  chewyExclusive: Boolean!
+  createdAt: String!
+  updatedAt: String!
+}
+
+# ─── Pricing Domain ───────────────────────────────────────────────────────────
+
+type Price {
+  amount: Float!
+  currency: String!
+  perUnit: String
+}
+
+type SalePrice {
+  amount: Float!
+  currency: String!
+  originalAmount: Float!
+  savingsAmount: Float!
+  savingsPercent: Float!
+  saleStartDate: String
+  saleEndDate: String
+}
+
+type AutoshipDiscount {
+  id: ID!
+  discountPercent: Float!
+  minimumOrderAmount: Float
+  applicableCategories: [ProductCategory!]
+  firstOrderDiscount: Float
+  subsequentOrderDiscount: Float
+}
+
+# ─── Autoship Subscription Domain ─────────────────────────────────────────────
+
+type AutoshipFrequency {
+  value: Int!
+  unit: AutoshipFrequencyUnit!
+  label: String!
+}
+
+type RecipientPet {
+  id: ID!
+  pet: Pet!
+  autoship: Autoship!
+  preferredProducts: [Product!]
+}
+
+type AutoshipDetails {
+  frequency: AutoshipFrequency!
+  nextProcessingDate: String!
+  nextDeliveryDate: String
+  discount: AutoshipDiscount
+  paymentMethod: PaymentMethod!
+  shippingAddress: Address!
+}
+
+type AutoshipOrder {
+  id: ID!
+  autoship: Autoship!
+  orderDate: String!
+  order: Order!
+  status: OrderStatusValue!
+  discountApplied: Float
+}
+
+type Autoship {
+  id: ID!
+  customer: Customer!
+  recipientPets: [RecipientPet!]
+  items: [AutoshipItem!]
+  details: AutoshipDetails!
+  orders: [AutoshipOrder!]
+  active: Boolean!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type AutoshipItem {
+  id: ID!
+  autoship: Autoship!
+  productSku: ProductSKU!
+  quantity: Int!
+  price: Price!
+  autoshipPrice: Price
+}
+
+# ─── Order Domain ─────────────────────────────────────────────────────────────
+
+type Item {
+  id: ID!
+  productSku: ProductSKU!
+  quantity: Int!
+  unitPrice: Price!
+  totalPrice: Price!
+  autoshipItem: Boolean!
+}
+
+type OrderItem {
+  id: ID!
+  order: Order!
+  item: Item!
+  fulfilledQuantity: Int!
+  cancelledQuantity: Int!
+}
+
+type Shipping {
+  id: ID!
+  carrier: String!
+  trackingNumber: String
+  shippingMethod: String!
+  estimatedDelivery: String
+  shippingCost: Price!
+  address: Address!
+}
+
+type DeliveryDate {
+  estimated: String!
+  guaranteed: Boolean!
+  guaranteedBy: String
+  sameDay: Boolean!
+  nextDay: Boolean!
+}
+
+type OrderTracking {
+  id: ID!
+  order: Order!
+  shipping: Shipping!
+  currentStatus: String!
+  lastUpdated: String!
+  events: [TrackingEvent!]
+}
+
+type TrackingEvent {
+  timestamp: String!
+  location: String
+  status: String!
+  description: String!
+}
+
+type Returns {
+  id: ID!
+  order: Order!
+  initiatedDate: String!
+  reason: String!
+  items: [OrderItem!]
+  status: String!
+  refundAmount: Float
+  refundDate: String
+  returnLabel: String
+}
+
+type OrderStatus {
+  id: ID!
+  value: OrderStatusValue!
+  label: String!
+  description: String
+  updatedAt: String!
+}
+
+type Order {
+  id: ID!
+  orderNumber: String!
+  customer: Customer!
+  items: [OrderItem!]
+  status: OrderStatus!
+  tracking: OrderTracking
+  shipping: Shipping!
+  deliveryDate: DeliveryDate
+  subtotal: Price!
+  shippingCost: Price!
+  tax: Price!
+  discount: Price
+  total: Price!
+  paymentMethod: PaymentMethod!
+  autoshipOrder: Boolean!
+  autoship: Autoship
+  returns: [Returns!]
+  placedAt: String!
+  updatedAt: String!
+}
+
+# ─── Customer Domain ──────────────────────────────────────────────────────────
+
+type Address {
+  id: ID!
+  label: String
+  line1: String!
+  line2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String!
+  isPrimary: Boolean!
+  isDefaultShipping: Boolean!
+  isDefaultBilling: Boolean!
+}
+
+type PaymentMethod {
+  id: ID!
+  type: PaymentType!
+  label: String!
+  lastFour: String
+  expirationMonth: Int
+  expirationYear: Int
+  isPrimary: Boolean!
+  billingAddress: Address
+}
+
+type AutoPay {
+  id: ID!
+  customer: Customer!
+  enabled: Boolean!
+  paymentMethod: PaymentMethod!
+  enrolledAt: String!
+}
+
+type RewardPoints {
+  id: ID!
+  transactionDate: String!
+  points: Int!
+  description: String!
+  orderId: String
+  expirationDate: String
+}
+
+type PawPoints {
+  id: ID!
+  customer: Customer!
+  currentBalance: Int!
+  lifetimeEarned: Int!
+  lifetimeRedeemed: Int!
+  transactions: [RewardPoints!]
+  nextExpirationDate: String
+  nextExpirationAmount: Int
+}
+
+type Rewards {
+  id: ID!
+  customer: Customer!
+  pawPoints: PawPoints!
+  memberSince: String!
+  tier: String
+  benefitsSummary: [String!]
+}
+
+type CustomerProfile {
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  dateOfBirth: String
+  communicationPreferences: [String!]
+  marketingOptIn: Boolean!
+}
+
+type PetOwner {
+  id: ID!
+  customer: Customer!
+  pets: [Pet!]
+  primaryPetSpecies: [Species!]
+}
+
+type Customer {
+  id: ID!
+  profile: CustomerProfile!
+  petOwner: PetOwner
+  addresses: [Address!]
+  paymentMethods: [PaymentMethod!]
+  autoPay: AutoPay
+  rewards: Rewards
+  autoships: [Autoship!]
+  orders: [Order!]
+  createdAt: String!
+  updatedAt: String!
+}
+
+# ─── Auth and Integration Domain ──────────────────────────────────────────────
+
+type APIKey {
+  id: ID!
+  key: String!
+  label: String!
+  scopes: [String!]
+  createdAt: String!
+  expiresAt: String
+  lastUsedAt: String
+  active: Boolean!
+}
+
+type Token {
+  id: ID!
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int!
+  refreshToken: String
+  scopes: [String!]
+  issuedAt: String!
+}
+
+type Webhook {
+  id: ID!
+  url: String!
+  events: [WebhookEvent!]!
+  secret: String
+  active: Boolean!
+  description: String
+  createdAt: String!
+  lastTriggeredAt: String
+  failureCount: Int!
+}
+
+# ─── Root Operations ──────────────────────────────────────────────────────────
+
+type Query {
+  # Pet queries
+  pet(id: ID!): Pet
+  pets(ownerId: ID!): [Pet!]
+  petProfile(petId: ID!): PetProfile
+
+  # Health and veterinary queries
+  health(petId: ID!): Health
+  medicalRecords(petId: ID!): [MedicalRecord!]
+  prescriptions(petId: ID!): [Prescription!]
+  veterinarian(id: ID!): Veterinarian
+  vetClinic(id: ID!): VetClinic
+  vetPartners: [VetPartner!]
+
+  # Product queries
+  product(id: ID!): Product
+  products(categoryId: ID, brandId: ID, speciesId: ID, foodCategory: FoodCategory, limit: Int, offset: Int): [Product!]
+  productSku(id: ID!): ProductSKU
+  brand(id: ID!): Brand
+  brands(limit: Int): [Brand!]
+  productCategory(id: ID!): ProductCategory
+  productCategories: [ProductCategory!]
+
+  # Autoship queries
+  autoship(id: ID!): Autoship
+  autoships(customerId: ID!): [Autoship!]
+  autoshipOrder(id: ID!): AutoshipOrder
+
+  # Order queries
+  order(id: ID!): Order
+  orders(customerId: ID!, limit: Int, offset: Int): [Order!]
+  orderTracking(orderId: ID!): OrderTracking
+
+  # Customer queries
+  customer(id: ID!): Customer
+  customerProfile(customerId: ID!): CustomerProfile
+  rewards(customerId: ID!): Rewards
+  pawPoints(customerId: ID!): PawPoints
+
+  # Auth and integration queries
+  apiKey(id: ID!): APIKey
+  apiKeys: [APIKey!]
+  webhooks: [Webhook!]
+}
+
+type Mutation {
+  # Pet mutations
+  createPet(ownerId: ID!, name: String!, speciesId: ID!, breedId: ID): Pet
+  updatePet(id: ID!, name: String, speciesId: ID, breedId: ID): Pet
+  deletePet(id: ID!): Boolean
+  updatePetProfile(petId: ID!, allergies: [String!], dietaryRestrictions: [String!]): PetProfile
+
+  # Prescription mutations
+  requestPrescription(petId: ID!, medicationId: ID!, vetId: ID!): Prescription
+  approvePrescription(id: ID!): Prescription
+
+  # Autoship mutations
+  createAutoship(customerId: ID!, frequencyValue: Int!, frequencyUnit: AutoshipFrequencyUnit!, paymentMethodId: ID!, addressId: ID!): Autoship
+  updateAutoshipFrequency(id: ID!, frequencyValue: Int!, frequencyUnit: AutoshipFrequencyUnit!): Autoship
+  addAutoshipItem(autoshipId: ID!, productSkuId: ID!, quantity: Int!): AutoshipItem
+  removeAutoshipItem(autoshipItemId: ID!): Boolean
+  pauseAutoship(id: ID!): Autoship
+  resumeAutoship(id: ID!): Autoship
+  cancelAutoship(id: ID!): Boolean
+
+  # Order mutations
+  placeOrder(customerId: ID!, items: [OrderItemInput!]!, paymentMethodId: ID!, addressId: ID!): Order
+  cancelOrder(id: ID!): Order
+  initiateReturn(orderId: ID!, items: [ID!]!, reason: String!): Returns
+
+  # Customer mutations
+  createCustomer(profile: CustomerProfileInput!): Customer
+  updateCustomerProfile(id: ID!, profile: CustomerProfileInput!): Customer
+  addAddress(customerId: ID!, address: AddressInput!): Address
+  removeAddress(id: ID!): Boolean
+  addPaymentMethod(customerId: ID!, paymentMethod: PaymentMethodInput!): PaymentMethod
+  removePaymentMethod(id: ID!): Boolean
+  enrollAutoPay(customerId: ID!, paymentMethodId: ID!): AutoPay
+  redeemPawPoints(customerId: ID!, points: Int!, orderId: ID!): PawPoints
+
+  # Auth and integration mutations
+  createAPIKey(label: String!, scopes: [String!]!): APIKey
+  revokeAPIKey(id: ID!): Boolean
+  createWebhook(url: String!, events: [WebhookEvent!]!, description: String): Webhook
+  updateWebhook(id: ID!, url: String, events: [WebhookEvent!], active: Boolean): Webhook
+  deleteWebhook(id: ID!): Boolean
+}
+
+# ─── Input Types ──────────────────────────────────────────────────────────────
+
+input OrderItemInput {
+  productSkuId: ID!
+  quantity: Int!
+}
+
+input CustomerProfileInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  marketingOptIn: Boolean
+}
+
+input AddressInput {
+  label: String
+  line1: String!
+  line2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String!
+  isPrimary: Boolean
+  isDefaultShipping: Boolean
+  isDefaultBilling: Boolean
+}
+
+input PaymentMethodInput {
+  type: PaymentType!
+  label: String!
+  token: String!
+  billingAddressId: ID
+}
