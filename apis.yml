@@ -14,7 +14,7 @@ description: Chewy, Inc. is a Fortune 500 American online retailer of pet food, 
 type: Index
 position: Consuming
 access: 3rd-Party
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/chewy/refs/heads/main/apis.yml
 tags:
 - Autoship
@@ -43,7 +43,7 @@ apis:
     (850), inventory updates (846), shipment confirmations (856), and invoices (810).
     Vendors authenticate using API tokens and supplier account credentials provided
     through the Dsco platform.
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.chewy.com
   baseURL: https://api.dsco.io
   tags:
