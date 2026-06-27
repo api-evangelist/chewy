@@ -76,7 +76,7 @@ common:
   url: https://careers.chewy.com
 - type: HelpCenter
   url: https://www.chewy.com/app/help
-- type: TermsOfUse
+- type: TermsOfService
   url: https://www.chewy.com/app/content/terms-of-use
 - type: PrivacyPolicy
   url: https://www.chewy.com/app/content/privacy
