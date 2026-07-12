@@ -62,6 +62,10 @@ apis:
   - url: graphql/chewy-graphql.md
     type: GraphQL
 common:
+- type: VulnerabilityDisclosure
+  url: security/chewy-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/chewy-domain-security.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/chewy-com
 - type: Website
