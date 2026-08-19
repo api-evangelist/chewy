@@ -45,7 +45,7 @@ tags:
 - Veterinary
 created: '2026-03-21'
 modified: '2026-04-23'
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 apis:
 - aid: chewy:vendor-integration-api
   name: Chewy Vendor Integration API
