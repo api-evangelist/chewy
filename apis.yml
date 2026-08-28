@@ -12,6 +12,17 @@ description: Chewy, Inc. is a Fortune 500 American online retailer of pet food, 
   orders, inventory updates, shipment confirmations, and invoices, enabling brands
   and third-party logistics providers to connect with Chewy's e-commerce marketplace.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: unknown
