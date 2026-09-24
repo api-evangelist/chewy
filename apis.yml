@@ -97,8 +97,6 @@ apis:
     url: https://www.chewy.com/about
   - type: DscoPlatform
     url: https://www.dsco.io
-  - url: graphql/chewy-graphql.md
-    type: GraphQL
 common:
 - type: VulnerabilityDisclosure
   url: security/chewy-vulnerability-disclosure.yml
