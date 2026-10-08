@@ -98,6 +98,12 @@ apis:
   - type: DscoPlatform
     url: https://www.dsco.io
 common:
+- type: Plans
+  url: plans/chewy-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/chewy-rate-limits.yml
+- type: FinOps
+  url: finops/chewy-finops.yml
 - type: VulnerabilityDisclosure
   url: security/chewy-vulnerability-disclosure.yml
 - type: DomainSecurity
