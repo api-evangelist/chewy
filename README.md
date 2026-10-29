@@ -1,4 +1,4 @@
-# Chewy (chewy)
+# Chewy
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,104 +64,110 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Chewy, Inc. is a Fortune 500 American online retailer of pet food, pet products, prescription medications, and veterinary services. Chewy provides vendor and supplier integration primarily through the Dsco supplier integration platform rather than a public consumer-facing developer API. The Dsco-based integration supports core EDI transactions for purchase orders, inventory updates, shipment confirmations, and invoices, enabling brands and third-party logistics providers to connect with Chewy's e-commerce marketplace.
+Chewy, Inc. is a Fortune 500 American online retailer of pet food, pet products, prescription medications, and veterinary services headquartered in Plantation, Florida. Chewy is one of the largest e-commerce pet retailers in the United States and supports a customer-focused operating model centered on subscription Autoship orders, Chewy Pharmacy prescription fulfillment, Connect with a Vet telehealth, and Chewy Health insurance. Chewy provides vendor and supplier integration primarily through the Dsco supplier integration platform rather than a public consumer-facing developer API. The Dsco-based integration supports core EDI transactions for purchase orders, inventory updates, shipment confirmations, and invoices, enabling brands and third-party logistics providers to connect with Chewy's e-commerce marketplace.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/chewy/refs/heads/main/apis.yml)
+**Areas:** Autoship · Dropshipping · Dsco · E-Commerce · EDI · Fortune 500 · Pet Food · Pet Pharmacy · Pet Retail · Plantation · Subscription · Telehealth
 
-## Scope
+## Chewy on APIs.io
 
-- **Type:** Index
-- **Position:** Consuming
-- **Access:** 3rd-Party
+Everything profiled for Chewy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/chewy/](https://apis.io/providers/chewy/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (1)
 
-- Autoship
-- Drop Shipping
-- Dsco
-- E-Commerce
-- EDI
-- Fortune 500
-- Pet Food
-- Pet Pharmacy
-- Pet Retail
-- Plantation
-- Subscriptions
-- Telehealth
-- Vendor Integration
-- Veterinary
+- [Chewy Vendor Integration API](https://apis.io/apis/chewy/vendor-integration-api/) — Chewy provides vendor and supplier integration through the Dsco platform, enabling third-party brands and logistics providers to connect with Chewy's…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-21
-- **Modified:** 2026-04-23
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### GraphQL (1)
 
-### Chewy Vendor Integration API
+GraphQL schemas.
 
-Chewy provides vendor and supplier integration through the Dsco platform. The integration supports EDI transactions including purchase orders (850), inventory updates (846), shipment confirmations (856), and invoices (810). Vendors authenticate using API tokens and supplier account credentials provided through the Dsco platform.
+- [Moved to /providers/chewy/](https://apis.io/graphqls/chewy/chewy-graphql/)
 
-**Human URL:** [https://www.chewy.com](https://www.chewy.com)
+#### Security (2)
 
-**Base URL:** `https://api.dsco.io`
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Properties
+- [Chewy Domain Security](https://apis.io/security/chewy/chewy-domain-security/)
+- [Chewy Vulnerability Disclosure](https://apis.io/security/chewy/chewy-vulnerability-disclosure/)
 
-- [Documentation](https://www.chewy.com)
-- [Partner Program](https://www.chewy.com/about)
-- [Dsco Platform](https://www.dsco.io)
+#### Plans and pricing (1)
 
-## Common Properties
+Published plans, tiers and prices.
+
+- [Chewy Plans Pricing](https://apis.io/plans/chewy/chewy-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Chewy Rate Limits](https://apis.io/rate-limits/chewy/chewy-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Chewy Finops](https://apis.io/finops/chewy/chewy-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.chewy.com)
-- [GitHub](https://github.com/Chewy-Inc)
-- [Investor Relations](https://investor.chewy.com)
-- [Newsroom](https://newsroom.chewy.com)
-- [Careers](https://careers.chewy.com)
-- [Help Center](https://www.chewy.com/app/help)
-- [Terms of Use](https://www.chewy.com/app/content/terms-of-use)
-- [Privacy Policy](https://www.chewy.com/app/content/privacy)
-- [Chewy Pharmacy](https://www.chewy.com/app/content/chewy-pharmacy)
-- [Connect With a Vet](https://www.chewy.com/app/content/connect-with-a-vet)
-- [Chewy Health](https://www.chewyhealth.com)
+- [Terms of service](https://www.chewy.com/app/content/terms-of-use)
+- [Privacy policy](https://www.chewy.com/app/content/privacy)
 
-## Brands
+## API Evangelist rating
 
-- Chewy
-- Chewy Pharmacy
-- Chewy Health
-- Connect With a Vet
-- American Journey
-- Tylee's
-- Frisco
-- Vibeful
+**Kin Score 13.2** — emerging · rubric 0.24.0 · scored 2026-10-17
 
-## Features
+| Facet | Score |
+|---|---|
+| Discoverability | 67.0 |
+| Contract quality | 0.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 9.5 |
+| Access clarity | 15.8 |
 
-- Online Pet Retail
-- Autoship Subscriptions
-- Chewy Pharmacy
-- Connect With a Vet (Telehealth)
-- Pet Insurance
-- Multi-Pet Households
-- Donations and Adoptions
-- Same-Day and Next-Day Delivery
-- Vendor Drop-Ship Integration via Dsco
-- EDI Order, Inventory, Ship, Invoice Cycle
+**Agent readiness 0.6** — human-only
 
-## Use Cases
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
 
-- Pet Food and Treat Subscriptions
-- Prescription Pet Medication Fulfillment
-- Vet Telehealth Consultations
-- Pet Health Insurance
-- Pet Brand Drop-Ship Marketplace
-- Third-Party Logistics Integration
-- Adoption Partner Donations
+**Regulatory alignment 12.5** — Health
 
-## Maintainers
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/chewy/](https://apis.io/providers/chewy/).
 
-**FN:** Kin Lane
+## How this profile is made
 
-**Email:** kin@apievangelist.com
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Chewy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/chewy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
